@@ -25,6 +25,18 @@ Ante supports booleans with the `bool` type.
 
 Strings are supported through the `Str` type.
 
+### Tuples
+
+Tuples are groups of values, typed by their size and contents. A tuple can be created by placing values in
+brackets
+
+`(<val1>, <val2>, ...)`
+
+where all the values can be of different types. Each element of the tuple can then be accessed by its index,
+using the `#` operator. The type of a tuple can be written in a similar way:
+
+`(<type1>, <type2>, ...)`
+
 ## User-constructed types
 
 ### Basic types
@@ -122,3 +134,38 @@ trait's parameter then appears in the functions, it should be replaced appropria
     ext Box<'t> : GetType<'t>
         fun get_value: Box<'t> g -> 't
             g.contents
+
+## Arrays
+
+The type system in Ante includes sized arrays, where the size is passed around to functions as part of the type.
+The general form of an array is `[<size> <type>]`. Arrays support an indexing operator `#<n>`, which can be used to
+access and set the elements of the array. Arrays are zero-indexed.
+
+#### Example
+
+    fun print_all : [3 u8] array
+        printf "%d" array#0
+        printf "%d" array#1
+        printf "%d" array#2
+
+## Pointers
+
+Ante also supports pointers of types, denoted by a type followed by a `*`. A pointer can be dereferenced
+using the deref operator `@`, which can be used to get and set its value. Pointers can also be accessed at
+an offset using the index operator, `#`, similarly to an array.
+
+An instance of a pointer to a value can be created using `new`. 
+
+#### Example
+
+    let mut pointer = new 46_i32
+    /* 46 */
+    printf "%d" (@pointer)
+
+    @pointer = 21_i32
+    /* 21 */
+    printf "%d" (@pointer)
+
+    pointer#0 = 35
+    /* 35 */
+    printf "%d" (@pointer)
