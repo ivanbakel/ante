@@ -60,13 +60,27 @@ These variables can then be accessed on an instance of a basic type using `.<var
 
 ### Tagged Unions
 
-There's also support for unions of basic types. Each part of the union is made up of a tag and a
-set of variables, of the form
+There's also support for unions of basic types. Each part of the union is made up of a tag and an
+optional list of one or more types separated by `,`, of the form
 
-`type <Typename> = <tag> <variables> (| <tag> <variables>)+`
+`type <Typename> = (| <tag> (<typename>(,<typename>)*)?)+
 
-It's only possible to extract the variables from an instance of the union by pattern-matching on the
- tag and assigning names to each variable.
+An instance of the union type is then made up of one of the possible tags and a value for each of
+the types in the corresponding type list, in order. It's only possible to extract the value from 
+an instanceby pattern-matching on the tag and assigning names to each value.
+
+    type ABC = | A u8 | B Str, bool | C
+
+    fun printABC : ABC abc
+        match abc with
+        | A int -> printf "%d\n" int
+        | B string b -> printf "%s if %b\n" string b
+        | C -> print "Got a C!\n"
+
+### Recursive types
+
+If a type contains an instance of itself somewhere in its body, that instance must be a *pointer* (see
+below). 
 
 #### Example
 
