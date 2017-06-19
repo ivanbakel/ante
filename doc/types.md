@@ -1,4 +1,4 @@
-## Primitives
+## Built-in types
 
 ### Integers
 
@@ -8,6 +8,9 @@ Ante supports 5 signed and unsigned integer primitives:
 and `u` indicates unsigned. 
  * The last is sized to the platform bit-size i.e. 32 bits on a 32-bit 
 platform, and so on: these are of the form `[iu]sz`.
+
+A numeric literal can be followed by an optional underscore an an integer type name to explicitly
+type it.
 
 ### Characters
 
@@ -168,7 +171,7 @@ Ante also supports pointers of types, denoted by a type followed by a `*`. A poi
 using the deref operator `@`, which can be used to get and set its value. Pointers can also be accessed at
 an offset using the index operator, `#`, similarly to an array.
 
-An instance of a pointer to a value can be created using `new`. 
+An instance of a pointer to an existing value can be created using `new`. 
 
 #### Example
 
@@ -183,3 +186,27 @@ An instance of a pointer to a value can be created using `new`.
     pointer#0 = 35
     /* 35 */
     printf "%d" (@pointer)
+
+## Function types
+
+It's possible to treat functions as values as well, and pass them to other functions. The type of a function
+is written as a list of types, separated by commas, followed by the return type - if the function returns nothing,
+the explicit `void` type is used.
+
+#### Examples
+
+    type Maybe = | Some u8 | None
+    
+    fun filter: Maybe m, u8->bool filter -> Maybe
+        match m with
+        | Some value -> if (filter value) then (Some value) else (None)
+        | None -> None
+
+    fun is_even : u8 value -> bool
+        value % 2 == 0
+
+    /* None */
+    filter (Some 3_u8) (is_even)
+    /* Some 6 */
+    filter (Some 6_u8) (is_even)
+
