@@ -87,8 +87,7 @@ below).
 
 #### Example
 
-    type IntOrString = Int i32 int
-        | String Str string
+    type LinkedList<'t> = 't contents, LinkedList<'t>* next
  
 ### Type parameters
 
