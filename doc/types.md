@@ -66,7 +66,7 @@ These variables can then be accessed on an instance of a basic type using `.<var
 There's also support for unions of basic types. Each part of the union is made up of a tag and an
 optional list of one or more types separated by `,`, of the form
 
-`type <Typename> = (| <tag> (<typename>(,<typename>)*)?)+
+`type <Typename> = (| <tag> (<typename>(,<typename>)*)?)+`
 
 An instance of the union type is then made up of one of the possible tags and a value for each of
 the types in the corresponding type list, in order. It's only possible to extract the value from 
@@ -161,9 +161,9 @@ access and set the elements of the array. Arrays are zero-indexed.
 #### Example
 
     fun print_all : [3 u8] array
-        printf "%d" array#0
-        printf "%d" array#1
-        printf "%d" array#2
+        printf "%d" (array#0)
+        printf "%d" (array#1)
+        printf "%d" (array#2)
 
 ## Pointers
 
